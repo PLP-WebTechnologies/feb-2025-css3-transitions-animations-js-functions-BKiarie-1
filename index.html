@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animations and Local Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .animate {
+            animation: bounce 0.5s forwards;
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="button" id="animateBtn">Click Me!</button>
+
+    <script>
+        // Function to handle button click
+        function handleButtonClick() {
+            const button = document.getElementById('animateBtn');
+            button.classList.add('animate');
+
+            // Store user preference in localStorage
+            localStorage.setItem('buttonClicked', 'true');
+
+            // Remove animation class after animation ends
+            button.addEventListener('animationend', () => {
+                button.classList.remove('animate');
+            });
+        }
+
+        // Function to retrieve user preferences
+        function checkUserPreference() {
+            const buttonClicked = localStorage.getItem('buttonClicked');
+            if (buttonClicked) {
+                alert('Welcome back! You have clicked the button before.');
+            }
+        }
+
+        // Event listener for button
+        document.getElementById('animateBtn').addEventListener('click', handleButtonClick);
+
+        // Check user preference on page load
+        document.addEventListener('DOMContentLoaded', checkUserPreference);
+    </script>
+</body>
+</html>
